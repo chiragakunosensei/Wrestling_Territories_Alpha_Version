@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>MAP673 Lesson 06</title>
+
+  <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+  <style>
+    #map {
+      width: 100%;
+      height: calc(40vh);
+    }
+
+    #about {
+      max-height: calc(80vh);
+      overflow-y: scroll;
+    }
+
+    /* Small devices (landscape phones, 576px and up) */
+    @media (min-width: 576px) {}
+
+    /* Medium devices (tablets, 768px and up) */
+    @media (min-width: 768px) {
+      #map {
+        height: calc(60vh);
+      }
+    }
+
+    /* Large devices (desktops, 992px and up) */
+    @media (min-width: 992px) {
+
+      #map {
+        height: calc(80vh);
+      }
+    }
+    
+    .state {
+        fill: none;
+        stroke: #800080;
+        stroke-width: 2;
+      }  
+      
+svg .path {
+  fill: none;
+  stroke-opacity: .8;
+  stroke-dasharray: 3,2;
+  stroke: #f44;
+}
+    .county {
+  fill: #fac484;
+  stroke: #f8a07e;
+}
+
+.county:hover {
+  fill: #f3e79b;
+  stroke: #eb7f86;
+  stroke-width: 2;
+}
+      
+
+
+    #ui {
+      position: absolute;
+      right: 1em;
+      top: 1em;
+    }
+
+.feature {
+		fill: none;
+		stroke: grey;
+		stroke-width: 1px;
+  		stroke-linejoin: round;
+	}
+	.mesh {
+		fill: none;
+  		stroke: lightgrey;
+  		stroke-width: 2px;
+  		stroke-linejoin: round;      
+
+    /* Extra large devices (large desktops, 1200px and up) */
+    @media (min-width: 1200px) {}
+  </style>
+
+</head>
+
+<body>
+  <div class="container-fluid">
+    <header class="row py-3 bg-dark text-white">
+      <div class="col mx-2">
+        <h1 class="h1">Map title</h1>
+      </div>
+    </header>
+
+    <section class="row bg-secondary ">
+      <div class="col-12 col-md-7 col-lg-8 px-0">
+        <div id="map" class="bg-light position-relative">
+          <div id="ui" class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Territories
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"></div>
+          </div>
+        </div>
+      </div>
+       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="25" cy="25" r="20" fill="purple" 
+        stroke="green" stroke-width="10"
+        opacity="5"/>
+       </svg>
+      <aside id="about" class="col-12 col-md-5 col-lg-4 text-dark py-2">
+        <section>
+          <h2 class="h2 text-dark">About this map</h2>
+          <p>A fan brush is a fantastic piece of equipment. Use it. Make friends with it. We're not trying to teach you
+            a thing to copy. We're just here to teach you a technique, then let you loose into the world. We'll put a
+            happy little sky in here.</p>
+          <p>We'll paint one happy little tree right here. The secret to doing anything is believing that you can do it.
+            Anything that you believe you can do strong enough, you can do. Anything. As long as you believe. Let's make
+            a nice big leafy tree.</p>
+          <p>Lorem Ipsum by <a class="badge badge-success" href="https://www.bobrosslipsum.com/index.html">Bob Ross
+              quotes generator</a>.</p>
+          <p>Everything's not great in life, but we can still find beauty in it. I'll go over the colors one more time
+            that we use: Titanium white, Thalo green, Prussian blue, Van Dyke brown, Alizarin crimson, Sap green, Cad
+            yellow, and Permanent red. Only think about one thing at a time. Don't get greedy. In painting, you have
+            unlimited power. You have the ability to move mountains. You can bend rivers. But when I get home, the only
+            thing I have power over is the garbage. I get carried away with this brush cleaning.</p>
+        </section>
+      </aside>
+    </section>
+    <footer class="row bg-dark text-white py-3">
+      <div class="col mx-2">
+        <ul class="list-unstyled">
+          <li>Map authored by @bgardener</li>
+          <li>data sourced from
+            <a href="https://www.census.gov/geo/maps-data/data/tiger-cart-boundary.html">Cartographic Boundary Files</a>
+            and the
+            <a href="https://www.epa.gov/air-emissions-inventories/emissions-inventory-system-eis-gateway">EPA Air
+              Emissions Inventories</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div> <!-- end .container-fluid -->
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+
+  <script src="https://d3js.org/d3.v5.js"></script>
+  <script src="https://unpkg.com/topojson@3"></script>
+  <script>
+    // select the HTML element that will hold our map
+
+    
+
+
+      const mapContainer = d3.select('#map')
+
+
+
+// determine width and height of map from container
+const width = mapContainer.node().offsetWidth - 60;
+const height = mapContainer.node().offsetHeight - 60;
+
+// create and append a new SVG element to the map div
+const svg = mapContainer
+  .append('svg')
+  .attr('width', width)
+  .attr('height', height)
+  .classed('position-absolute', true) // add bootstrap class
+  .style('top', 10) // 40 pixels from the top
+  .style('left', 30); // 40 pixels from the left
+      
+//const stateGeoJson = d3.json('data/datawork.geojson')
+const territory = d3.json('data/wt.json')
+const sity = d3.json('data/points.json');
+
+
+
+// wait until data is loaded then send to draw map function
+Promise.all([territory, sity]).then(drawMap);
+
+// accepts the data as a parameter countiesData
+function drawMap(data) {
+
+    
+
+     // refer to different datasets
+  const tData = data[0];
+  const cityData = data[1]
+ // const countiesData = data[1];
+  
+
+  const mapContainer = d3.select('#map')
+
+// determine width and height of map from container
+const width = mapContainer.node().offsetWidth - 60;
+const height = mapContainer.node().offsetHeight - 60;
+
+const svg = mapContainer
+  .append('svg')
+  .attr('width', width)
+  .attr('height', height)
+  .classed('position-absolute', true) // add bootstrap class
+  .style('top', 40)
+  .style('left', 30);
+    
+    const tooltip = d3.select('.container-fluid').append('div') //creates basic tooltip
+  .attr('class', 'my-tooltip bg-warning text-white py-1 px-2 rounded position-absolute invisible');
+
+// when mouse moves over the mapContainer
+mapContainer
+  .on('mousemove', event => { // standard text from previous lab, styling on tooltip see hover above
+    // update the position of the tooltip
+    tooltip.style('left', (d3.event.pageX + 10) + 'px')
+      .style('top', (d3.event.pageY - 30) + 'px');
+  });    
+  
+
+  // fit the extent to the width and height using the geojson
+  // fit the extent to the width and height using the geojson
+  const projection = d3.geoConicEquidistant()
+        .center([0, 40])  // center of geography in latitude
+        .rotate([97,0])  // rotate the earth negative degrees in longitude
+        .scale(400)  // adjust the scale (i.e., "zoom")
+        .translate([width/2, height/2]);  // move the project to the center of the SVG // update here
+// declare a geographic path generator
+  const path = d3.geoPath()
+    .projection(projection);
+
+
+// when mouse moves over the mapContainer
+/*mapContainer
+  .on('mousemove', event => {
+    // update the position of the tooltip
+    tooltip.style('left', (d3.event.pageX + 10) + 'px')
+      .style('top', (d3.event.pageY - 30) + 'px');
+  });    */
+
+ const aa = [-122.490402, 37.786453];
+	const bb = [-122.389809, 37.72728];
+  const   seattle = [-122.3321, 47.6062]
+   const  coosBay = [-124.2179, 43.3665]
+  const   pacificNW= "6 hours 30 minutes via I-5"
+  const   sacramento = [-121.4429125, 38.581573]
+  const   kingCity = [-121.1260, 36.2127]
+  const   northernCali = "3 hours 22 minues via I-680 and US 101"
+  const  sanDiego = [-117.161087, 32.715736]
+  const   Bakersfield = [-119.0187, 35.3733]
+  const   Hollywood = "3 hours and 38 minutes via I-5"
+   const  Lafayette = [-86.890617, 40.417332]
+   const  lasVegas = [-115.139832, 36.169941]
+  const   AWA = "27 hours via I-70 and I-80"
+ const    sanAngelo = [-100.437035, 31.463772]
+ const    coloradoSprings = [-104.821365, 38.833881]
+ const    westernStateSports = "10 hours and 7 minutes via I-25"
+  const   newOrleans = [-90.071533,29.951065]
+  const   oklahomaCity = [-97.516426, 35.467560]
+ const    midSouth = "10 hours and 41 minutes via I-49"
+ const    Panamacity = [-85.730827, 30.185181]
+ const    Louisville = [-85.758453, 38.252666]
+ const    CWA = "10 hours via I-65"
+ const    Cincinatti = [-84.512016, 39.103119]
+ const    Charleston = [-79.931030, 32.776470]
+ const    midAtlantic = "9 hours and 46 minutes via I-26 and I-75"
+ const    albany  = [-84.155884, 31.578461]
+   const  Cornelia = [-83.527130, 34.511391]
+  const   GeorgiaCW = "3 hours and 55 minutes via I-75"
+  const   Miami = [-80.191788, 25.761681]
+  const   Talahasse = [-84.248528, 30.308689]
+    const CWAA = "7 hpurs and 12 minutes via Florida's Turnpike"
+    const fortWayne = [-85.139351, 41.079273]
+    const terraHaute = [-81.766590, 30.850240]
+    const WWA = "3 hours and 14 minutes via I-69 and I-70"
+  const   Detroit = [-83.045753, 42.331429]
+  const   Colombus = [-82.996292, 39.962761]
+  const   DetroitT = "3 hours and 20 minutes vis I-75 and US-23"
+  const   Clevland = [-81.691498, 41.505550]
+  const   Buffalo = [-78.878372, 42.886448]
+  const   NWF = "3 hours vis I-90"
+  const   Pittsburg = [-79.995888, 40.440624]
+ const    Bangor = [-68.795013, 44.808147]
+ const    WWWF = "12 hours 47 minutes vis I-84"
+ const    Witchita = [-97.3301, 37.6872]
+ const    St_Louis = [-90.1994, 38.6270]
+ const Mid_West = "6 hours and 36 minutes vis I-35 and I-70"
+    
+ 
+ /*var PNW = "Pacific Northwest Territory" + "Coos Bay to Seattle" pacificNW + "Don Owens" + <a href="https://shitloadsofwrestling.tumblr.com/post/168646736068/roddy-piper-tells-a-story-about-portland-wrestling/embed">It Smells Like Shit in Here</a>
+*/
+
+	// add states from topojson
+	/*svg.selectAll("path")
+      .data(tData.features).enter()
+      .append("path")
+      .attr("class", "feature")
+      .style("fill", "steelblue")
+      .attr("d", path);*/
+
+    // put boarder around states 
+  	
+
+var b = svg.append('g')
+    .selectAll('path')
+    .data(tData.features) // update here
+    .join('path')
+    .attr('d', path)
+    .attr('class', 'state')
+  // declare a path generator using the projection*/
+   
+    
+    
+var a = svg.selectAll("circle")
+		.data([Pittsburg, Bangor, coosBay, seattle, Witchita, St_Louis, Buffalo, Clevland, Detroit, Colombus, terraHaute, fortWayne, Talahasse, Miami, Cornelia, albany, Charleston, Cincinatti, Louisville, Panamacity, oklahomaCity, newOrleans, coloradoSprings, sanAngelo, Lafayette, lasVegas,  Bakersfield, sanDiego, kingCity, sacramento]).enter()
+		.append("circle")
+		.attr("cx", function (d) { console.log(projection(d)); return projection(d)[0]; })
+		.attr("cy", function (d) { return projection(d)[1]; })
+		.attr("r", "4px")
+		.attr("fill", "green")
+
+
+
+//
+
+
+/*b.on('mouseover', (d, i, nodes) => { // when mousing over an element
+    console.log(d)
+    d3.select(nodes[i]).classed('hover', true).raise(); // select it, add a class name, and bring to front
+  tooltip.classed('invisible', false).html(
+    ' County') // make tooltip visible and update info 
+})
+.on('mouseout', (d, i, nodes) => { // when mousing out of an element
+  console.log(d)
+  d3.select(nodes[i]).classed('hover', false) // remove the class from the polygon
+  tooltip.classed('invisible', true) // hide the element 
+});*/
+
+
+    
+var route = {
+  type: "LineString",
+  coordinates: [
+    Pittsburg,
+    Bangor,
+     
+  ]
+};
+    
+var route2 = {
+  type: "LineString",
+  coordinates: [
+    coosBay,
+    seattle,
+     
+  ]
+};
+
+var route3 = {
+  type: "LineString",
+  coordinates: [
+    Witchita,
+    St_Louis,
+     
+  ]
+};
+    
+    var route4 = {
+  type: "LineString",
+  coordinates: [
+    Buffalo,
+    Clevland,
+     
+  ]
+};
+    
+     var route5 = {
+  type: "LineString",
+  coordinates: [
+    Detroit,
+    Colombus,
+     
+  ]
+};
+    
+ var route6 = {
+  type: "LineString",
+  coordinates: [
+    terraHaute,
+    fortWayne,
+     
+  ]
+};
+     var route7 = {
+  type: "LineString",
+  coordinates: [
+    Talahasse,
+    Miami,
+     
+  ]
+};
+    
+ var route8 = {
+  type: "LineString",
+  coordinates: [
+    Cornelia,
+    albany,
+     
+  ]
+};
+    
+ var route9 = {
+  type: "LineString",
+  coordinates: [
+    Charleston,
+    Cincinatti,
+     
+  ]
+};
+    
+     var route10 = {
+  type: "LineString",
+  coordinates: [
+    Louisville,
+    Panamacity,
+     
+  ]
+};
+    
+ var route11 = {
+  type: "LineString",
+  coordinates: [
+    newOrleans,
+    oklahomaCity,
+     
+  ]
+};
+    
+ var route12 = {
+  type: "LineString",
+  coordinates: [
+   sanAngelo,
+    coloradoSprings,
+     
+  ]
+};
+    
+ var route13 = {
+  type: "LineString",
+  coordinates: [
+    sanDiego,
+    Bakersfield,
+     
+  ]
+};
+
+ var route14 = {
+  type: "LineString",
+  coordinates: [
+    newOrleans,
+    Lafayette,
+     
+  ]
+};
+    
+ var route15 = {
+  type: "LineString",
+  coordinates: [
+    kingCity,
+    sacramento,
+     
+  ]
+};
+    
+var route16 = {
+  type: "LineString",
+  coordinates: [
+    lasVegas, Lafayette
+     
+  ]
+};
+    
+    var AWADist =     
+   svg.append("path")
+          .datum(route16)
+          .attr("class", "route16")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+    
+     var DetroitDist =     
+   svg.append("path")
+          .datum(route5)
+          .attr("class", "route5")
+     .attr("stroke", "purple")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+    
+ var WWADist =     
+   svg.append("path")
+          .datum(route6)
+          .attr("class", "route6")
+     .attr("stroke", "yellow")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)    
+    
+ var FloridaDist =     
+   svg.append("path")
+          .datum(route7)
+          .attr("class", "route7")
+     .attr("stroke", "green")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)    
+    
+ var GCWWDist =     
+   svg.append("path")
+          .datum(route8)
+          .attr("class", "route8")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)    
+    
+ var MidAtlanticDist =     
+   svg.append("path")
+          .datum(route9)
+          .attr("class", "route9")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+ 
+ var CWADist =     
+   svg.append("path")
+          .datum(route10)
+          .attr("class", "route10")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+    
+ var MidSouth =     
+   svg.append("path")
+          .datum(route11)
+          .attr("class", "route11")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+
+var WesternDistance =     
+   svg.append("path")
+          .datum(route12)
+          .attr("class", "route12")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)   
+
+ var HollywoodDist =     
+   svg.append("path")
+          .datum(route13)
+          .attr("class", "route13")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+    
+ var MidWestDist =     
+   svg.append("path")
+          .datum(route4)
+          .attr("class", "route14")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+    
+ var NCalDist =     
+   svg.append("path")
+          .datum(route4)
+          .attr("class", "route15")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+
+    
+   var WWWFDistance = svg.append("path")
+          .datum(route)
+          .attr("class", "route")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 3);
+    
+
+     var PacificNWDist = svg.append("path")
+          .datum(route2)
+          .attr("class", "route2")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+     
+     var mid_West_Dist = svg.append("path")
+          .datum(route3)
+          .attr("class", "route3")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+     
+     var NFWDist =     
+   svg.append("path")
+          .datum(route4)
+          .attr("class", "route4")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+     
+      var NoCalDist =     
+   svg.append("path")
+          .datum(route15)
+          .attr("class", "route15")
+     .attr("stroke", "red")
+     .attr("fill", "red")
+          .attr("d", path)
+          .style("opacity", 2)
+
+
+NoCalDist.on('mouseover', (d, i, nodes) => { 
+    console.log(d)
+    d3.select(nodes[i]).classed('hover', true).raise(); 
+  tooltip.classed('invisible', false).html(
+   "Northern California Big Time Wrestling" + "<br>" +"Sacramento to King City"  + "<br>" + northernCali  + "<br>" + "Story:" + ' ' + '<a href="https://www.youtube.com/watch?v=0IL7NXFXrqA">It Smells Like Shit in Here </a>' + "<br>" + "Main Character:" + ' ' + "Don Muraco, Piper, and Cowboy Bob") // make tooltip visible and update info 
+})
+    
+.on('mouseout', (d, i, nodes) => { // when mousing out of an element
+  console.log(d)
+  d3.select(nodes[i]).classed('hover', false) // remove the class from the polygon
+  tooltip.classed('invisible', true) // hide the element 
+});
+    
+HollywoodDist.on('mouseover', (d, i, nodes) => { 
+    console.log(d)
+    d3.select(nodes[i]).classed('hover', true).raise(); 
+  tooltip.classed('invisible', false).html(
+   "Hollywood Wrestling" + "<br>" +"San Diego to King City"  + "<br>" + Hollywood  + "<br>" + "Story:" + ' ' + '<a href="https://www.youtube.com/watch?v=ilG_VqrbJck">Haku Fights a Gang of Marines and Eats Mace </a>' + "<br>" + "Main Character:" + ' ' + "Haku") // make tooltip visible and update info 
+})
+    
+.on('mouseout', (d, i, nodes) => { // when mousing out of an element
+  console.log(d)
+  d3.select(nodes[i]).classed('hover', false) // remove the class from the polygon
+  tooltip.classed('invisible', true) // hide the element 
+});
+    
+PacificNWDist.on('mouseover', (d, i, nodes) => { 
+    console.log(d)
+    d3.select(nodes[i]).classed('hover', true).raise(); 
+  tooltip.classed('invisible', false).html(
+   "Pacific North West Wrestling" + "<br>" +"Portland to Coos Bay"  + "<br>" + pacificNW  + "<br>" + "Story:" + ' ' + '<a href="https://www.youtube.com/watch?v=ilG_VqrbJck">It Smells like Shit in Here</a>' + "<br>" + "Main Character:" + ' ' + "Don Owens") // make tooltip visible and update info 
+})
+    
+.on('mouseout', (d, i, nodes) => { // when mousing out of an element
+  console.log(d)
+  d3.select(nodes[i]).classed('hover', false) // remove the class from the polygon
+  tooltip.classed('invisible', true) // hide the element 
+});
+   
+    /*var PNW = "Pacific Northwest Territory" + "Coos Bay to Seattle" pacificNW + "Don Owens" + <a href="https://shitloadsofwrestling.tumblr.com/post/168646736068/roddy-piper-tells-a-story-about-portland-wrestling/embed">It Smells Like Shit in Here</a>
+*/
+    
+/*c.on('mouseover', (d, i, nodes) => { // when mousing over an element
+    console.log(d)
+    d3.select(nodes[i]).classed('hover', true).raise(); // select it, add a class name, and bring to front
+  tooltip.classed('invisible', false).html(
+    WWWF) // make tooltip visible and update info 
+})
+.on('mouseout', (d, i, nodes) => { // when mousing out of an element
+  console.log(d)
+  d3.select(nodes[i]).classed('hover', false) // remove the class from the polygon
+  tooltip.classed('invisible', true) // hide the element 
+});*/
+
+//filterByAttribute(tData, b);
+//drawLegend(svg, width, height, radius)
+// prepare a helper function
+
+}
+
+
+      
+      
+      
+/*function filterByAttribute(tData, b) {
+// array to hold select options
+var uniqueTypes = [];
+
+// loop through all features and push unique types to array
+tData.forEach(function (facility) {
+  if (!uniqueTypes.includes(facility.Industry_Type)) {
+    uniqueTypes.push(facility.Industry_Type);
+  }
+});
+
+// sort strings alphabetically
+uniqueTypes.sort();
+
+// add an all facilities to the beginning
+uniqueTypes.unshift('All Territories');
+  // code
+// select all the options (that don't exist yet)
+d3.select('#ui .dropdown-menu').selectAll('a')
+  .data(uniqueTypes) // use array as data
+  .join('a') // append a new option element for each data item
+  .text(d => {
+    return d // use the item as text
+  })
+  .attr('value', d => {
+    return d // use the time as value attribute
+  })
+  .attr('href', '#')
+  .classed('dropdown-item', true)
+  .on('click', onchange);  // when the user clicks call onchange function
+    
+function onchange() {
+  // get the currently selected value
+  let val = d3.select(this).attr('value');
+  
+ b.style('display', d => {
+    if (val === 'All facilities') return 'inline';
+     console.log(d)
+    if (d.ter != val) return 'none';
+  });
+
+  d3.select('#ui > a').html(val);  // update the UI with current val
+}
+
+}*/
+
+/*function drawLegend(svg, width, height, radius) {
+
+   const legend = svg.append('g')
+     .attr('dy', '1.3em')
+     .attr('class', 'legend')
+     .attr('transform', 'translate(' + (width - 40) + ',' + (height - 20) + ')')
+     .selectAll('g')
+     .data([5e6, 2e7])
+     .join('g');
+
+   legend.append('circle')
+     .attr('cy', d => {
+       return -radius(d);
+     })
+     .attr('r', radius);
+
+   legend.append('text')
+     .attr('y', d => {
+       return -2 * radius(d);
+     })
+     .attr('dy', '1.3em')
+     .text(d3.format('.1s'));
+
+   legend.append('text')
+     .attr('y', 16)
+     .text('metric tons');
+ }*/
+    /*var lineFunction = d3.svg.line()
+  .x(function(d) { return d.x; })
+  .y(function(d) { return d.y; })
+  .interpolate('linear');
+    
+    var lineGraph = svg.append("path")
+  .attr("d", lineFunction(route))
+  .attr("stroke", "blue")
+  .attr("stroke-width", 2)
+  .attr("fill", "none")
+    }*/
+       /* use rhis
+       svg.append("path")
+          .datum(route)
+          .attr("class", "route")
+    .attr("stroke-width", 20)
+          .attr("d", path)
+          .style("opacity", 0.5);
+}*/
+
+ // append states
+ /* svg.append('g')
+    .selectAll('path')
+    .data(cityData.features.properties) // update here
+    .join('path')
+    .attr('d', path)
+    .attr('class', 'state')
+  // declare a path generator using the projection*/
+      
+      
+      
+  </script>
+</body>
+
+</html>
