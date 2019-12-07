@@ -32,54 +32,44 @@
 
     /* Large devices (desktops, 992px and up) */
     @media (min-width: 992px) {
-
-      #map {
-        height: calc(80vh);
-      }
+  
+#map {
+    height: calc(80vh);
     }
+}
     
-    .state {
-        fill: none;
-        stroke: #800080;
-        stroke-width: 2;
-      }  
+ .state {
+    fill: none;
+    stroke: #800080;
+    stroke-width: 2;
+      
+}  
       
 svg .path {
-  fill: none;
-  stroke-opacity: .8;
-  stroke-dasharray: 3,2;
-  stroke: #f44;
+    fill: none;
+    stroke-opacity: .8;
+    stroke-dasharray: 3,2;
+    stroke: #f44;
 }
-    .county {
-  fill: #fac484;
-  stroke: #f8a07e;
+ 
+#ui {
+    position: absolute;
+    right: 1em;
+    top: 1em;
 }
-
-.county:hover {
-  fill: #f3e79b;
-  stroke: #eb7f86;
-  stroke-width: 2;
-}
-      
-
-
-    #ui {
-      position: absolute;
-      right: 1em;
-      top: 1em;
-    }
 
 .feature {
-		fill: none;
-		stroke: grey;
-		stroke-width: 1px;
-  		stroke-linejoin: round;
+    fill: none;
+    stroke: grey;
+    stroke-width: 1px;
+    stroke-linejoin: round;
 	}
-	.mesh {
-		fill: none;
-  		stroke: lightgrey;
-  		stroke-width: 2px;
-  		stroke-linejoin: round;      
+	
+.mesh {
+    fill: none;
+    stroke: lightgrey;
+    stroke-width: 2px;
+    stroke-linejoin: round;      
 
     /* Extra large devices (large desktops, 1200px and up) */
     @media (min-width: 1200px) {}
@@ -161,10 +151,7 @@ svg .path {
     // select the HTML element that will hold our map
 
     
-
-
-      const mapContainer = d3.select('#map')
-
+const mapContainer = d3.select('#map')
 
 
 // determine width and height of map from container
@@ -183,6 +170,7 @@ const svg = mapContainer
 //const stateGeoJson = d3.json('data/datawork.geojson')
 const territory = d3.json('data/wt.json')
 const sity = d3.json('data/points.json');
+      // OKAY THIS NEVER WORKED OUT FOR ME AND I THINK IT'S BECAUSE THE LAT LON WERE IN THE WRONG ORDER - SINCE I CHANGED MY MIND OF WHAT DISPLAY HARD CODING FELT EASIER THEN CHANGING MY DATABASE
 
 
 
@@ -195,8 +183,8 @@ function drawMap(data) {
     
 
      // refer to different datasets
-  const tData = data[0];
-  const cityData = data[1]
+const tData = data[0];
+const cityData = data[1]
  // const countiesData = data[1];
   
 
@@ -214,7 +202,7 @@ const svg = mapContainer
   .style('top', 40)
   .style('left', 30);
     
-    const tooltip = d3.select('.container-fluid').append('div') //creates basic tooltip
+const tooltip = d3.select('.container-fluid').append('div') //creates basic tooltip
   .attr('class', 'my-tooltip bg-warning text-white py-1 px-2 rounded position-absolute invisible');
 
 // when mouse moves over the mapContainer
@@ -246,70 +234,57 @@ mapContainer
       .style('top', (d3.event.pageY - 30) + 'px');
   });    */
 
- const aa = [-122.490402, 37.786453];
-	const bb = [-122.389809, 37.72728];
-  const   seattle = [-122.3321, 47.6062]
-   const  coosBay = [-124.2179, 43.3665]
-  const   pacificNW= "6 hours 30 minutes via I-5"
-  const   sacramento = [-121.4429125, 38.581573]
-  const   kingCity = [-121.1260, 36.2127]
-  const   northernCali = "3 hours 22 minues via I-680 and US 101"
-  const  sanDiego = [-117.161087, 32.715736]
-  const   Bakersfield = [-119.0187, 35.3733]
-  const   Hollywood = "3 hours and 38 minutes via I-5"
-   const  Lafayette = [-86.890617, 40.417332]
-   const  lasVegas = [-115.139832, 36.169941]
-  const   AWA = "27 hours via I-70 and I-80"
- const    sanAngelo = [-100.437035, 31.463772]
- const    coloradoSprings = [-104.821365, 38.833881]
- const    westernStateSports = "10 hours and 7 minutes via I-25"
-  const   newOrleans = [-90.071533,29.951065]
-  const   oklahomaCity = [-97.516426, 35.467560]
- const    midSouth = "10 hours and 41 minutes via I-49"
- const    Panamacity = [-85.730827, 30.185181]
- const    Louisville = [-85.758453, 38.252666]
- const    CWA = "10 hours via I-65"
- const    Cincinatti = [-84.512016, 39.103119]
- const    Charleston = [-79.931030, 32.776470]
- const    midAtlantic = "9 hours and 46 minutes via I-26 and I-75"
- const    albany  = [-84.155884, 31.578461]
-   const  Cornelia = [-83.527130, 34.511391]
-  const   GeorgiaCW = "3 hours and 55 minutes via I-75"
-  const   Miami = [-80.191788, 25.761681]
-  const   Talahasse = [-84.248528, 30.308689]
-    const CWAA = "7 hpurs and 12 minutes via Florida's Turnpike"
-    const fortWayne = [-85.139351, 41.079273]
-    const terraHaute = [-81.766590, 30.850240]
-    const WWA = "3 hours and 14 minutes via I-69 and I-70"
-  const   Detroit = [-83.045753, 42.331429]
-  const   Colombus = [-82.996292, 39.962761]
-  const   DetroitT = "3 hours and 20 minutes vis I-75 and US-23"
-  const   Clevland = [-81.691498, 41.505550]
-  const   Buffalo = [-78.878372, 42.886448]
-  const   NWF = "3 hours vis I-90"
-  const   Pittsburg = [-79.995888, 40.440624]
- const    Bangor = [-68.795013, 44.808147]
- const    WWWF = "12 hours 47 minutes vis I-84"
- const    Witchita = [-97.3301, 37.6872]
- const    St_Louis = [-90.1994, 38.6270]
- const Mid_West = "6 hours and 36 minutes vis I-35 and I-70"
+const aa = [-122.490402, 37.786453];
+const bb = [-122.389809, 37.72728];
+const   seattle = [-122.3321, 47.6062]
+const  coosBay = [-124.2179, 43.3665]
+const   pacificNW= "6 hours 30 minutes via I-5"
+const   sacramento = [-121.4429125, 38.581573]
+const   kingCity = [-121.1260, 36.2127]
+const   northernCali = "3 hours 22 minues via I-680 and US 101"
+const  sanDiego = [-117.161087, 32.715736]
+const   Bakersfield = [-119.0187, 35.3733]
+const   Hollywood = "3 hours and 38 minutes via I-5"
+const  Lafayette = [-86.890617, 40.417332]
+const  lasVegas = [-115.139832, 36.169941]
+const   AWA = "27 hours via I-70 and I-80"
+const    sanAngelo = [-100.437035, 31.463772]
+const    coloradoSprings = [-104.821365, 38.833881]
+const    westernStateSports = "10 hours and 7 minutes via I-25"
+const   newOrleans = [-90.071533,29.951065]
+const   oklahomaCity = [-97.516426, 35.467560]
+const    midSouth = "10 hours and 41 minutes via I-49"
+const    Panamacity = [-85.730827, 30.185181]
+const    Louisville = [-85.758453, 38.252666]
+const    CWA = "10 hours via I-65"
+const    Cincinatti = [-84.512016, 39.103119]
+const    Charleston = [-79.931030, 32.776470]
+const    midAtlantic = "9 hours and 46 minutes via I-26 and I-75"
+const    albany  = [-84.155884, 31.578461]
+const  Cornelia = [-83.527130, 34.511391]
+const   GeorgiaCW = "3 hours and 55 minutes via I-75"
+const   Miami = [-80.191788, 25.761681]
+const   Talahasse = [-84.248528, 30.308689]
+const CWAA = "7 hpurs and 12 minutes via Florida's Turnpike"
+const fortWayne = [-85.139351, 41.079273]
+const terraHaute = [-81.766590, 30.850240]
+const WWA = "3 hours and 14 minutes via I-69 and I-70"
+const   Detroit = [-83.045753, 42.331429]
+const   Colombus = [-82.996292, 39.962761]
+const   DetroitT = "3 hours and 20 minutes vis I-75 and US-23"
+const   Clevland = [-81.691498, 41.505550]
+const   Buffalo = [-78.878372, 42.886448]
+const   NWF = "3 hours vis I-90"
+const   Pittsburg = [-79.995888, 40.440624]
+const    Bangor = [-68.795013, 44.808147]
+const    WWWF = "12 hours 47 minutes vis I-84"
+const    Witchita = [-97.3301, 37.6872]
+const    St_Louis = [-90.1994, 38.6270]
+const Mid_West = "6 hours and 36 minutes vis I-35 and I-70"
     
  
- /*var PNW = "Pacific Northwest Territory" + "Coos Bay to Seattle" pacificNW + "Don Owens" + <a href="https://shitloadsofwrestling.tumblr.com/post/168646736068/roddy-piper-tells-a-story-about-portland-wrestling/embed">It Smells Like Shit in Here</a>
-*/
 
-	// add states from topojson
-	/*svg.selectAll("path")
-      .data(tData.features).enter()
-      .append("path")
-      .attr("class", "feature")
-      .style("fill", "steelblue")
-      .attr("d", path);*/
-
-    // put boarder around states 
-  	
-
-var b = svg.append('g')
+var territoriesDraw = svg.append('g')
     .selectAll('path')
     .data(tData.features) // update here
     .join('path')
@@ -319,7 +294,7 @@ var b = svg.append('g')
    
     
     
-var a = svg.selectAll("circle")
+var distanceCities = svg.selectAll("circle")
 		.data([Pittsburg, Bangor, coosBay, seattle, Witchita, St_Louis, Buffalo, Clevland, Detroit, Colombus, terraHaute, fortWayne, Talahasse, Miami, Cornelia, albany, Charleston, Cincinatti, Louisville, Panamacity, oklahomaCity, newOrleans, coloradoSprings, sanAngelo, Lafayette, lasVegas,  Bakersfield, sanDiego, kingCity, sacramento]).enter()
 		.append("circle")
 		.attr("cx", function (d) { console.log(projection(d)); return projection(d)[0]; })
@@ -327,22 +302,6 @@ var a = svg.selectAll("circle")
 		.attr("r", "4px")
 		.attr("fill", "green")
 
-
-
-//
-
-
-/*b.on('mouseover', (d, i, nodes) => { // when mousing over an element
-    console.log(d)
-    d3.select(nodes[i]).classed('hover', true).raise(); // select it, add a class name, and bring to front
-  tooltip.classed('invisible', false).html(
-    ' County') // make tooltip visible and update info 
-})
-.on('mouseout', (d, i, nodes) => { // when mousing out of an element
-  console.log(d)
-  d3.select(nodes[i]).classed('hover', false) // remove the class from the polygon
-  tooltip.classed('invisible', true) // hide the element 
-});*/
 
 
     
@@ -373,7 +332,7 @@ var route3 = {
   ]
 };
     
-    var route4 = {
+var route4 = {
   type: "LineString",
   coordinates: [
     Buffalo,
@@ -382,7 +341,7 @@ var route3 = {
   ]
 };
     
-     var route5 = {
+var route5 = {
   type: "LineString",
   coordinates: [
     Detroit,
@@ -399,7 +358,8 @@ var route3 = {
      
   ]
 };
-     var route7 = {
+
+var route7 = {
   type: "LineString",
   coordinates: [
     Talahasse,
@@ -426,7 +386,7 @@ var route3 = {
   ]
 };
     
-     var route10 = {
+var route10 = {
   type: "LineString",
   coordinates: [
     Louisville,
@@ -488,7 +448,7 @@ var route16 = {
   ]
 };
     
-    var AWADist =     
+var AWADist =     
    svg.append("path")
           .datum(route16)
           .attr("class", "route16")
@@ -497,7 +457,7 @@ var route16 = {
           .attr("d", path)
           .style("opacity", 2)
     
-     var DetroitDist =     
+var DetroitDist =     
    svg.append("path")
           .datum(route5)
           .attr("class", "route5")
@@ -606,7 +566,7 @@ var WesternDistance =
           .style("opacity", 3);
     
 
-     var PacificNWDist = svg.append("path")
+var PacificNWDist = svg.append("path")
           .datum(route2)
           .attr("class", "route2")
      .attr("stroke", "red")
@@ -614,7 +574,7 @@ var WesternDistance =
           .attr("d", path)
           .style("opacity", 2)
      
-     var mid_West_Dist = svg.append("path")
+var mid_West_Dist = svg.append("path")
           .datum(route3)
           .attr("class", "route3")
      .attr("stroke", "red")
@@ -622,8 +582,7 @@ var WesternDistance =
           .attr("d", path)
           .style("opacity", 2)
      
-     var NFWDist =     
-   svg.append("path")
+var NFWDist = svg.append("path")
           .datum(route4)
           .attr("class", "route4")
      .attr("stroke", "red")
@@ -631,8 +590,7 @@ var WesternDistance =
           .attr("d", path)
           .style("opacity", 2)
      
-      var NoCalDist =     
-   svg.append("path")
+var NoCalDist = svg.append("path")
           .datum(route15)
           .attr("class", "route15")
      .attr("stroke", "red")
